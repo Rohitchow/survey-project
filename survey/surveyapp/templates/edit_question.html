@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Question</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #ff6a00;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        textarea, input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        textarea:focus, input:focus {
+            border-color: #ff6a00;
+            outline: none;
+            box-shadow: 0 0 5px rgba(255, 102, 0, 0.3);
+        }
+
+        button {
+            background: #ff6a00;
+            color: #fff;
+            border: none;
+            padding: 15px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #e65c00;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            background: #6c757d;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+        .back-link:hover {
+            background: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Question</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            <label for="question_text">Question:</label>
+            <textarea id="question_text" name="question_text" rows="3" required>{{ question.text }}</textarea>
+
+            <label>Options:</label>
+            {% for option in options %}
+                <input type="text" name="option{{ forloop.counter }}" value="{{ option.text }}" required>
+            {% endfor %}
+
+            <button type="submit">Save Changes</button>
+        </form>
+
+        <a href="{% url 'add_questions' question.survey.id %}" class="back-link">Back to Add Questions</a>
+    </div>
+</body>
+</html>

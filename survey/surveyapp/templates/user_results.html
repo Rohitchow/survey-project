@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Results</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(145deg, #FDE2E4, #FFB4A2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(90deg, #FF7F50, #FF4500);
+            color: white;
+            text-align: center;
+            padding: 15px 20px;
+            font-size: 24px;
+            font-weight: bold;
+            border-radius: 15px 15px 0 0;
+        }
+
+        header p {
+            margin: 0;
+            font-size: 16px;
+            color: #FFD700;
+        }
+
+        section {
+            margin-top: 20px;
+        }
+
+        section h2 {
+            font-size: 20px;
+            color: #FF4500;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #FF4500;
+            padding-bottom: 5px;
+        }
+
+        .results-list h3 {
+            color: #FF4500;
+            margin-bottom: 5px;
+        }
+
+        .results-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .results-list li {
+            background: #FFF9F2;
+            margin-bottom: 10px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            color: #333;
+        }
+
+        .results-list li strong {
+            color: #FF4500;
+        }
+
+        a.btn-secondary {
+            display: inline-block;
+            background: linear-gradient(90deg, #FF7F50, #FF4500);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+            transition: background 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        a.btn-secondary:hover {
+            background: linear-gradient(90deg, #FF4500, #FF7F50);
+        }
+
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            Survey Results: {{ survey.name }}
+            <p>{{ survey.description }}</p>
+        </header>
+        
+        <section>
+            <h2>Wisdom of the Crowd</h2>
+            <div class="results-list">
+                {% for result in question_results %}
+                    <h3>{{ result.question }}</h3>
+                    <ul>
+                        {% for option in result.options %}
+                            <li>
+                                <strong>{{ option.text }}</strong>: 
+                                {{ option.count }} responses ({{ option.percentage }}%)
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endfor %}
+            </div>
+        </section>
+        
+        <a href="{% url 'available_surveys' %}" class="btn-secondary">Go Back to Available Surveys</a>
+
+        <footer>
+            <p>&copy; 2024 Your Survey App</p>
+        </footer>
+    </div>
+</body>
+</html>

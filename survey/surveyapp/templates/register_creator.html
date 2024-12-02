@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register as Survey Creator</title>
+    <style>
+        /* General Reset */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ffe5e0, #ffc1b9); /* Matching background color */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+
+        /* Form Container */
+        .container {
+            background: rgba(255, 255, 255, 0.9); /* Semi-transparent form container */
+            border-radius: 20px;
+            padding: 40px;
+            width: 400px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            text-align: left; /* Align text to the left for form labels */
+        }
+
+        .container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            color: #ff6a00; /* Accent color for the header */
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        form label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        form input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        form input:focus {
+            border-color: #ff6a00;
+            outline: none;
+            box-shadow: 0 0 5px rgba(255, 106, 0, 0.5);
+        }
+
+        .form-instructions {
+            font-size: 0.9rem;
+            color: #555;
+            margin-top: -10px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #ff9a00, #ff6a00); /* Matching button gradient */
+            color: #fff;
+            border: none;
+            padding: 10px 0;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            text-align: center;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #ff6a00, #ff9a00);
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(1);
+        }
+
+        .errorlist {
+            color: #d9534f; /* Error color */
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Register as Survey Creator</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            
+            <label for="id_username">Username:</label>
+            <input id="id_username" type="text" name="username" required>
+            {{ form.username.errors }}
+            
+            <label for="id_password1">Password:</label>
+            <input id="id_password1" type="password" name="password1" required>
+            {{ form.password1.errors }}
+            <ul class="form-instructions">
+                <li>Your password can’t be too similar to your other personal information.</li>
+                <li>Your password must contain at least 8 characters.</li>
+                <li>Your password can’t be a commonly used password.</li>
+                <li>Your password can’t be entirely numeric.</li>
+            </ul>
+            
+            <label for="id_password2">Password confirmation:</label>
+            <input id="id_password2" type="password" name="password2" required>
+            {{ form.password2.errors }}
+            
+            <label for="id_name">Name:</label>
+            <input id="id_name" type="text" name="name" required>
+            {{ form.name.errors }}
+            
+            <button type="submit">Register</button>
+        </form>
+    </div>
+</body>
+</html>

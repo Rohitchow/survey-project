@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            width: 100%;
+            padding: 15px 30px;
+            background: #ff6a00;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        header a {
+            background: #fff;
+            color: #ff6a00;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        header a:hover {
+            background: #f5f5f5;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        .create-survey {
+            margin: 20px 0;
+            display: block;
+            width: fit-content;
+            background: #ff6a00;
+            color: #fff;
+            padding: 15px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: background 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .create-survey:hover {
+            background: #e65c00;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .survey-card {
+            background: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .survey-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .survey-card h3 {
+            margin: 0 0 10px;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            font-size: 0.9rem;
+            color: #fff;
+            border-radius: 15px;
+            margin-bottom: 10px;
+        }
+
+        .status.draft {
+            background: #f39c12;
+        }
+
+        .status.republished {
+            background: #27ae60;
+        }
+
+        .status.published {
+            background: #3498db; /* Blue for "Published" */
+        }
+
+        .status.closed {
+            background: #e74c3c; /* Red for "Closed" */
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .actions a {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            color: #fff;
+            background: #ff6a00;
+            transition: background 0.3s ease;
+        }
+
+        .actions a:hover {
+            background: #e65c00;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome, {{ request.user.first_name }}</h1>
+        <a href="{% url 'logout' %}">Logout</a>
+    </header>
+
+    <div class="container">
+        <a href="{% url 'create_survey' %}" class="create-survey">+ Create New Survey</a>
+
+        {% for survey in surveys %}
+        <div class="survey-card">
+            <h3>{{ survey.name }}</h3>
+            <span class="status {{ survey.status|lower }}">{{ survey.status }}</span>
+            <div class="actions">
+                <a href="{% url 'add_questions' survey.id %}">Edit</a>
+                <a href="{% url 'view_survey_results' survey.id %}">Results</a>
+                {% if survey.status == 'closed' %}
+                <a href="{% url 'republish_survey' survey.id %}">Republish</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

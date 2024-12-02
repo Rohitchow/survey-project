@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Republish Survey</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2, h3, p {
+            color: #ff6a00;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-top: 30px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        ul li span {
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        button {
+            background: #ff6a00;
+            color: #fff;
+            border: none;
+            padding: 15px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            text-align: center;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #e65c00;
+        }
+
+        .back-button {
+            display: block;
+            margin: 20px auto 0;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            background: #6c757d;
+            padding: 10px 20px;
+            border-radius: 5px;
+            width: 200px;
+        }
+
+        .back-button:hover {
+            background: #5a6268;
+        }
+
+        .question {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .question h3 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .question ul {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Republish Survey: {{ survey.name }}</h1>
+        <p>{{ survey.description }}</p>
+
+        <h2>Wisdom of the Crowd</h2>
+        {% if question_results %}
+            {% for result in question_results %}
+                <div class="question">
+                    <h3>{{ result.question }}</h3>
+                    <ul>
+                        {% for option in result.options %}
+                            <li>
+                                <span>{{ option.text }}</span>
+                                <span>{{ option.count }} responses ({{ option.percentage|floatformat:2 }}%)</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No responses available yet.</p>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit">Republish Survey</button>
+        </form>
+
+        <a href="{% url 'survey_dashboard' %}" class="back-button">Back to Dashboard</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Surveys</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f7c2c1, #f0e3e3); /* Soft pink background */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ff6a00;
+            font-size: 2.5rem;
+            margin-top: 30px;
+        }
+
+        h2 {
+            color: #ff6a00;
+            font-size: 1.5rem;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .logout-btn {
+            margin: 10px 0;
+            padding: 12px 30px;
+            background-color: #ff4500;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: #ff6a00;
+            transform: scale(1.05);
+        }
+
+        /* Survey Card Container */
+        .survey-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 0 20px;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Survey Card */
+        .survey-card {
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .survey-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .survey-card h3 {
+            font-size: 1.4rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .survey-card p {
+            font-size: 1rem;
+            color: #777;
+            margin-bottom: 20px;
+        }
+
+        .take-survey-btn {
+            padding: 10px 20px;
+            background-color: #ff7f50;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .take-survey-btn:hover {
+            background-color: #ff4500;
+        }
+
+        .empty-message {
+            color: #666;
+            font-size: 1.2rem;
+            text-align: center;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Available Surveys</h1>
+
+    <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+
+    <h2>Surveys You Can Take</h2>
+
+    <div class="survey-container">
+        {% for survey in available_surveys %}
+            <div class="survey-card">
+                <h3>{{ survey.name }}</h3>
+                <p>{{ survey.description }}</p>
+                <a href="{% url 'take_survey' survey.id %}" class="take-survey-btn">Take Survey</a>
+            </div>
+        {% empty %}
+            <div class="empty-message">
+                No surveys available to take at the moment. Check back later!
+            </div>
+        {% endfor %}
+    </div>
+
+    <h2>Surveys You Have Completed</h2>
+
+    <div class="survey-container">
+        {% for survey in completed_surveys %}
+            <div class="survey-card">
+                <h3>{{ survey.name }}</h3>
+                <p>{{ survey.description }}</p>
+                <a href="{% url 'view_user_results' survey.id %}" class="take-survey-btn">See Results (Wisdom of the Crowd)</a>
+            </div>
+        {% empty %}
+            <div class="empty-message">
+                No republished surveys available to view results.
+            </div>
+        {% endfor %}
+    </div>
+
+</body>
+</html>

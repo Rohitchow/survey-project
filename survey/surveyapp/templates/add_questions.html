@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Questions</title>
+    <style>
+        /* General Reset */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h2 {
+            color: #ff6a00;
+            font-size: 1.8rem;
+        }
+
+        .form-section {
+            background: rgba(255, 255, 255, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-section h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        textarea, input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        textarea:focus, input:focus {
+            border-color: #ff6a00;
+            outline: none;
+            box-shadow: 0 0 5px rgba(255, 102, 0, 0.3);
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: #ff6a00;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #e65c00;
+        }
+
+        .questions-container {
+            margin-top: 30px;
+        }
+
+        .questions-container h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .question-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-card .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .question-card .question-header h4 {
+            margin: 0;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .question-card .options {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+
+        .question-card .options li {
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .question-card a {
+            margin-left: 15px;
+            color: #ff6a00;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .question-card a:hover {
+            text-decoration: underline;
+        }
+
+        .back-button {
+            display: block;
+            margin: 30px auto 0;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            background: #6c757d;
+            padding: 10px 20px;
+            border-radius: 5px;
+            width: 200px;
+        }
+
+        .back-button:hover {
+            background: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <div class="header">
+            <h2>Add Questions to {{ survey.name }}</h2>
+        </div>
+
+
+        <div class="form-section">
+            <form method="post">
+                {% csrf_token %}
+                <h3>Question:</h3>
+                <textarea name="question_text" rows="3" placeholder="Enter your question here"></textarea>
+                <h3>Options:</h3>
+                <input type="text" name="option1" placeholder="Option 1">
+                <input type="text" name="option2" placeholder="Option 2">
+                <input type="text" name="option3" placeholder="Option 3">
+                <input type="text" name="option4" placeholder="Option 4">
+                <div class="button-container">
+                    <button type="submit" name="add_question">Add Question</button>
+                </div>
+            </form>
+        </div>
+
+
+        <div class="form-section">
+            <h3>Survey Options</h3>
+            <form method="post">
+                {% csrf_token %}
+                <div class="button-container">
+                    <button type="submit" name="save">Save as Draft</button>
+                    <button type="submit" name="publish">Publish</button>
+                    <button type="submit" name="close">Close Survey</button>
+                </div>
+            </form>
+        </div>
+
+
+        <div class="questions-container">
+            <h3>Current Questions</h3>
+            {% for question in survey.questions.all %}
+                <div class="question-card">
+
+                    <div class="question-header">
+                        <h4>{{ forloop.counter }}. {{ question.text }}</h4>
+                        <a href="{% url 'edit_question' question.id %}" class="edit-link">Edit</a>
+                    </div>
+
+                    <ul class="options">
+                        {% for option in question.options.all %}
+                            <li>{{ option.text }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+
+
+        <a href="{% url 'survey_dashboard' %}" class="back-button">Back to Dashboard</a>
+    </div>
+</body>
+</html>

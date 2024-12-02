@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register as Survey Taker</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #ff6a00;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus {
+            border-color: #ff6a00;
+            outline: none;
+            box-shadow: 0 0 5px rgba(255, 102, 0, 0.3);
+        }
+
+        button {
+            background: #ff6a00;
+            color: #fff;
+            border: none;
+            padding: 15px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #e65c00;
+        }
+
+        .instructions {
+            font-size: 0.9rem;
+            color: #555;
+            margin-top: -10px;
+            margin-bottom: 20px;
+        }
+
+        .errorlist {
+            color: #d9534f; /* Error color for invalid fields */
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Register as Survey Taker</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <label for="id_username">Username:</label>
+            <input type="text" id="id_username" name="username" required>
+            {{ form.username.errors }}
+            <span class="instructions">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</span>
+
+            <label for="id_password1">Password:</label>
+            <input type="password" id="id_password1" name="password1" required>
+            {{ form.password1.errors }}
+            <ul class="instructions">
+                <li>Your password can’t be too similar to your other personal information.</li>
+                <li>Your password must contain at least 8 characters.</li>
+                <li>Your password can’t be a commonly used password.</li>
+                <li>Your password can’t be entirely numeric.</li>
+            </ul>
+
+            <label for="id_password2">Password Confirmation:</label>
+            <input type="password" id="id_password2" name="password2" required>
+            {{ form.password2.errors }}
+            <span class="instructions">Enter the same password as before, for verification.</span>
+
+            <label for="id_name">Name:</label>
+            <input type="text" id="id_name" name="name" required>
+            {{ form.name.errors }}
+            <span class="instructions">Enter your full name.</span>
+
+            <button type="submit">Register</button>
+        </form>
+    </div>
+</body>
+</html>

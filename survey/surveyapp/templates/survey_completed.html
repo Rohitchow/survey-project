@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Completed</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(145deg, #FDE2E4, #FFB4A2);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Container */
+        .thank-you-container {
+            text-align: center;
+            background: white;
+            padding: 40px 60px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 90%;
+        }
+
+        /* Thank You Message */
+        .thank-you-message {
+            font-size: 28px;
+            font-weight: bold;
+            color: #FF4500;
+            margin-bottom: 20px;
+            animation: fadeIn 1.5s ease-in-out forwards;
+        }
+
+        /* Keyframes for fade-in */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Button */
+        .view-surveys {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 15px 25px;
+            font-size: 18px;
+            font-weight: bold;
+            background: linear-gradient(90deg, #FF7F50, #FF4500);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .view-surveys:hover {
+            background: linear-gradient(90deg, #FF4500, #FF7F50);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .thank-you-container {
+                padding: 20px 30px;
+            }
+
+            .thank-you-message {
+                font-size: 24px;
+            }
+
+            .view-surveys {
+                padding: 12px 20px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="thank-you-container">
+
+        <div class="thank-you-message">Thank you for completing the survey!</div>
+
+        
+        <a href="{% url 'available_surveys' %}" class="view-surveys">View More Surveys</a>
+    </div>
+</body>
+</html>
